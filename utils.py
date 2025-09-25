@@ -6,7 +6,7 @@ import os
 import pickle
 
 
-ROOT_DIR = "/data1/liangzibo/dace/"
+ROOT_DIR = "/home/zibo/DACE"
 
 plan_parameters = [
     "Node Type",

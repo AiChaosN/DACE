@@ -1,3 +1,5 @@
 __pycache__/
-data/workload*/
+data/workload*
+data/*.zip
+data/*.tar.gz
 wandb/

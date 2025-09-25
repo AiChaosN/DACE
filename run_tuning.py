@@ -13,7 +13,7 @@ from model import DACELora, PL_DACE, PLTrainer
 def tune_DACE(configs, model):
     train_data = load_json(os.path.join(ROOT_DIR, "data/workload2/mscn_plans.json"))
     statistics_file_path = configs["statistics_path"]
-    feature_statistics = load_json(ROOT_DIR + statistics_file_path)
+    feature_statistics = load_json(os.path.join(ROOT_DIR, statistics_file_path))
     # add numerical scalers (cite from zero-shot)
     add_numerical_scalers(feature_statistics)
 
@@ -69,7 +69,7 @@ def tune_DACE(configs, model):
 # test
 def test_job(model, test_workloads):
     statistics_file_path = configs["statistics_path"]
-    feature_statistics = load_json(ROOT_DIR + statistics_file_path)
+    feature_statistics = load_json(os.path.join(ROOT_DIR, statistics_file_path))
     # add numerical scalers (cite from zero-shot)
     add_numerical_scalers(feature_statistics)
 

@@ -14,7 +14,7 @@ from plan_utils import *
 def prepare_plans(configs):
     statistics_file_path = configs["statistics_path"]
 
-    feature_statistics = load_json(ROOT_DIR + statistics_file_path)
+    feature_statistics = load_json(os.path.join(ROOT_DIR, statistics_file_path))
     # add numerical scalers (cite from zero-shot)
     add_numerical_scalers(feature_statistics)
 
@@ -125,7 +125,7 @@ def train_with_ray(configs):
     results = tuner.fit()
     df_results = results.get_dataframe()
     # save results to a csv file
-    df_results.to_csv(ROOT_DIR + "results.csv")
+    df_results.to_csv(os.path.join(ROOT_DIR, "results.csv"))
 
 
 if __name__ == "__main__":

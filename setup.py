@@ -33,7 +33,7 @@ def filter_plans():
         ) as f:
             json.dump(filted_plans, f)
     # test case
-    with open("data/workload1/walmart_filted.json", "r") as f:
+    with open(os.path.join(ROOT_DIR, "data/workload1/walmart_filted.json"), "r") as f:
         content = f.readlines()
     for line in content:
         plans = json.loads(line)
@@ -42,7 +42,7 @@ def filter_plans():
 
 def get_statistic():
     plans = read_workload_runs(
-        ROOT_DIR + "data/workload1", db_names=workloads, verbose=True
+        os.path.join(ROOT_DIR, "data/workload1"), db_names=workloads, verbose=True
     )
 
     # get statistics
@@ -113,7 +113,7 @@ def get_statistic():
         },
     }
 
-    with open(ROOT_DIR + "data/workload1/statistics.json", "w") as f:
+    with open(os.path.join(ROOT_DIR, "data/workload1/statistics.json"), "w") as f:
         json.dump(statistics, f)
 
 
