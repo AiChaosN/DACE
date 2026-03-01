@@ -11,8 +11,9 @@ def filter_plans():
         filtered_plans = []
         for plan in original_plans:
             run_time = plan[0][0][0]["Plan"]["Actual Total Time"]
-            if run_time > 100:
-                filtered_plans.append(plan[0][0][0])
+            filtered_plans.append(plan[0][0][0])
+            # if run_time > 100:
+            #     filtered_plans.append(plan[0][0][0])
         return filtered_plans
 
     for workload in workloads:
@@ -23,8 +24,9 @@ def filter_plans():
         for line in content:
             plans = json.loads(line)
         filted_plans = filter(plans)
-        assert len(filted_plans) >= 10000
-        filted_plans = random.sample(filted_plans, 10000)
+        # assert len(filted_plans) >= 10000
+        if len(filted_plans) > 10000:
+            filted_plans = random.sample(filted_plans, 10000)
         print("workload: ", workload, "filted plans: ", len(filted_plans))
         with open(
             os.path.join(ROOT_DIR, "data/workload1/{}".format(workload))

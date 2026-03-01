@@ -187,7 +187,13 @@ class PLTrainer(pl.Trainer):
 
         # get q-error of all test data
         qerrors = []
+        device = model.device
         for batch, attn_masks, loss_mask, batch_times in dataloaders:
+            batch = batch.to(device)
+            attn_masks = attn_masks.to(device)
+            loss_mask = loss_mask.to(device)
+            batch_times = batch_times.to(device)
+
             est_times = model(batch, attn_masks)
             # use for DACE
             est_times = est_times[:, 0]
@@ -198,11 +204,18 @@ class PLTrainer(pl.Trainer):
         qerrors = torch.cat(qerrors, dim=0)
         # save test loss, median, 90th, 95th, 99th, max and mean in a dict
         test_metrics = {}
-        test_metrics["50th test loss"] = torch.quantile(qerrors, 0.5).item()
-        test_metrics["90th test loss"] = torch.quantile(qerrors, 0.9).item()
-        test_metrics["95th test loss"] = torch.quantile(qerrors, 0.95).item()
-        test_metrics["mean test loss"] = torch.mean(qerrors).item()
+        test_metrics["50th"] = torch.quantile(qerrors, 0.5).item()
+        test_metrics["75th"] = torch.quantile(qerrors, 0.75).item()
+        test_metrics["90th"] = torch.quantile(qerrors, 0.9).item()
+        test_metrics["95th"] = torch.quantile(qerrors, 0.95).item()
+        test_metrics["99th"] = torch.quantile(qerrors, 0.99).item()
+        test_metrics["max"] = torch.max(qerrors).item()
+        test_metrics["mean"] = torch.mean(qerrors).item()
         # report test loss, median, 90th, 95th, 99th, max and mean in logger
-        for k, v in test_metrics.items():
-            self.logger.log_metrics({k: v})
+        if self.logger:
+            for k, v in test_metrics.items():
+                self.logger.log_metrics({k: v})
+        print("\n=== Final Test Metrics ===")
+        print(test_metrics)
+        print("==========================\n")
         return test_metrics

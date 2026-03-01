@@ -6,7 +6,7 @@ import os
 import pickle
 
 
-ROOT_DIR = "/home/zibo/DACE"
+ROOT_DIR = "/home/AiChaosN/Project/Workspace/01_Research/DACE"
 
 plan_parameters = [
     "Node Type",
@@ -93,7 +93,7 @@ def getModelSize(model):
 
 def get_workload_paths(workload):
     workload_file_dir = "data/workload1"
-    workload_file_dir = os.join(ROOT_DIR, workload)
+    workload_file_dir = os.path.join(ROOT_DIR, workload)
     path_list = os.listdir(workload_file_dir)
     for dbtype in path_list:
         if os.path.isfile(os.path.join(workload_file_dir, dbtype)):

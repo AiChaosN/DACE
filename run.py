@@ -73,9 +73,10 @@ def train(configs):
 
     model = PL_DACE(model)
 
-    wandb_logger = pl.loggers.WandbLogger(project="DACE")
+    # wandb_logger = pl.loggers.WandbLogger(project="DACE")
+    csv_logger = pl.loggers.CSVLogger(save_dir=ROOT_DIR, name="dace_logs")
 
-    wandb_logger.log_hyperparams(configs)
+    # wandb_logger.log_hyperparams(configs)
     checkpoint_callback = ModelCheckpoint(
         monitor="val_loss",
         dirpath=os.path.join(ROOT_DIR, "checkpoints"),
@@ -87,7 +88,7 @@ def train(configs):
         enable_progress_bar=configs["progress_bar"],
         enable_model_summary=configs["progress_bar"],
         max_epochs=configs["max_epoch"],
-        logger=wandb_logger,
+        logger=csv_logger,
         callbacks=[checkpoint_callback],
     )
     # trainer = PLTrainer(accelerator="cpu", max_epochs=50, logger=wandb_logger)
@@ -131,12 +132,12 @@ def train_with_ray(configs):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--random_seed", type=int, default=123, help="random seed")
-    parser.add_argument("--node_length", type=int, default=18, help="node length")
+    parser.add_argument("--node_length", type=int, default=22, help="node length")
     parser.add_argument(
         "--hidden_dim", type=int, default=128, help="hidden dimension in transformer"
     )
     parser.add_argument("--batch_size", type=int, default=512, help="batch size")
-    parser.add_argument("--pad_length", type=int, default=20, help="pad length")
+    parser.add_argument("--pad_length", type=int, default=50, help="pad length")
     parser.add_argument("--max_epoch", type=int, default=50, help="max epoch")
     parser.add_argument(
         "--test_database_ids",
