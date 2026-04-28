@@ -1,6 +1,10 @@
 # DACE
 # Comparison: DACE vs. GNTO
 
+> **Note**: GNTO comparison scripts now use the centralized adapter from the [GNTO repository](https://github.com/AiChaosN/GNTO).
+> GNTO's `adapters/dace_adapter.py` loads this repo's `data/workload1/` data and `statistics.json`.
+> Make sure the GNTO repo is cloned as a sibling directory or update the path in the adapter.
+
 ## Environment Setup and Steps for Running `run_workload1_forGNTO.py`
 
 To train and test DACE on Workload1 using `run_workload1_forGNTO.py`, please ensure the following requirements are met:
